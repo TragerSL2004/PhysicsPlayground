@@ -14,7 +14,6 @@ public class RopeBuilder : MonoBehaviour
     [SerializeField]
     private int m_sectionDistance;
 
-
     private Vector3 newPosition;
 
     private void Awake()
