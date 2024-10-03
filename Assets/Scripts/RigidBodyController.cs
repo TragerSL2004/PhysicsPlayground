@@ -5,74 +5,77 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+
 [RequireComponent(typeof(Rigidbody))]
 public class RigidBodyController : MonoBehaviour
 {
     [SerializeField]
-    private float m_jumpHeight;
- 
+    private float _jumpHeight;
+
+    [Space]
     [SerializeField]
-    private Animator m_animator;
+    private Animator _animator;
 
-    private float m_speed;
+    private float _speed;
 
-    private Rigidbody m_rigidBody;
+    private Rigidbody _rigidBody;
 
-    private Vector2 moveInput;
+    private Vector2 _moveInput;
 
-    private bool jumpInput;
+    private bool _jumpInput;
 
-    private bool isIdle;
+    private bool _isIdle;
 
-    private Vector3 direction;
+    private Vector3 _direction;
 
     private void Start()
     {
-        m_rigidBody = GetComponent<Rigidbody>();
-
+        _rigidBody = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        if (!m_animator)
+        if (!_animator)
             return;
 
         if (Input.GetKeyDown(KeyCode.R))
             SetRagdollOn();
+        if (Input.GetKeyDown(KeyCode.T))
+            SetRagdollOff();
 
-        m_animator.SetFloat("Speed", m_speed);
-        m_animator.SetFloat("JumpHeight", m_jumpHeight);
-        m_animator.SetBool("Jump", jumpInput);
-        m_animator.SetBool("Rest", isIdle);
+        _animator.SetFloat("Speed", _speed);
+        _animator.SetFloat("JumpHeight", _jumpHeight);
+        _animator.SetBool("Jump", _jumpInput);
+        _animator.SetBool("Rest", _isIdle);
     }
 
     private void FixedUpdate()
     {
-        Vector3 force = direction.normalized * m_speed * Time.fixedDeltaTime;
+        Vector3 force = _direction.normalized * _speed * Time.fixedDeltaTime;
 
-        if (moveInput.magnitude > 0.1f)
+        if (_moveInput.magnitude > 0.1f)
         {
-            m_speed = 10;
-            m_rigidBody.AddForce(force, ForceMode.VelocityChange);
+            _speed = 10;
+            _rigidBody.AddForce(force, ForceMode.VelocityChange);
         }
-        else if (jumpInput)
-            m_speed = 3;
+        else if (_jumpInput)
+            _speed = 3;
         else
-            m_speed = 0;
+            _speed = 0;
 
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.action.ReadValue<Vector2>();
-        direction = new Vector3(moveInput.x, 0, moveInput.y);
+        _moveInput = context.action.ReadValue<Vector2>();
+        _direction = new Vector3(_moveInput.x, 0, _moveInput.y);
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        jumpInput = context.action.ReadValue<float>() > 0;
-        Vector3 jumpForce = new Vector3(0, m_jumpHeight, 0);
-        m_rigidBody.AddForce(jumpForce, ForceMode.Impulse);
+        _jumpInput = context.action.ReadValue<float>() > 0;
+        Vector3 jumpForce = new Vector3(0, _jumpHeight, 0);
+        _rigidBody.AddForce(jumpForce, ForceMode.Impulse);
     }
 
     private void SetRagdollOn()
@@ -80,17 +83,22 @@ public class RigidBodyController : MonoBehaviour
         ToggleRagdoll(true);
     }
 
+    private void SetRagdollOff()
+    {
+        ToggleRagdoll(false);
+    }
+
     private void ToggleRagdoll(bool enabled)
     {
-        m_animator.enabled = false;
-        m_rigidBody.isKinematic = enabled;
+        _animator.enabled = !enabled;
+        _rigidBody.isKinematic = enabled;
         TryGetComponent(out Collider collider);
 
         if (collider)
             collider.enabled = !enabled;
 
         foreach (var item in GetComponentsInChildren<Rigidbody>(true))
-            if (item != m_rigidBody)
+            if (item != _rigidBody)
                 item.isKinematic = !enabled;
         foreach (var item in GetComponentsInChildren<Collider>(true))
             if (item != collider)
