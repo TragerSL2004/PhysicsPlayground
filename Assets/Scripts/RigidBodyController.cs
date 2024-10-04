@@ -38,11 +38,15 @@ public class RigidBodyController : MonoBehaviour
         if (!_animator)
             return;
 
+        //Ragdoll the player when ragdoll is off and R is pressed
         if (Input.GetKeyDown(KeyCode.R))
             SetRagdollOn();
+        //Reset the player when ragdoll is on and T is pressed
         if (Input.GetKeyDown(KeyCode.T))
             SetRagdollOff();
 
+
+        //Set when animator should do certain animations
         _animator.SetFloat("Speed", _speed);
         _animator.SetFloat("JumpHeight", _jumpHeight);
         _animator.SetBool("Jump", _jumpInput);
@@ -53,14 +57,18 @@ public class RigidBodyController : MonoBehaviour
     {
         Vector3 force = _direction.normalized * _speed * Time.fixedDeltaTime;
 
+        //If move inputs are received...
         if (_moveInput.magnitude > 0.1f)
         {
+            //Set speed of animator and move the player
             _speed = 10;
             _rigidBody.AddForce(force, ForceMode.VelocityChange);
         }
         else if (_jumpInput)
             _speed = 3;
+        //If no inputs are being given...
         else
+            //Make animator idle
             _speed = 0;
 
     }

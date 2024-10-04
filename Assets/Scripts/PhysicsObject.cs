@@ -28,6 +28,7 @@ public class PhysicsObject : MonoBehaviour
 
     private void UpdateMeshRenderer()
     {
+        //Check if an object is moving and change color accordingly
         if (_rigidBody.IsSleeping() && !_wasSleeping && _asleepMaterial != null)
         {
             _wasSleeping = true;

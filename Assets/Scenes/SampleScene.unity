@@ -943,6 +943,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8365097333073649710, guid: 9a9d247a4b2e7e6409232fde033b9560, type: 3}
+      propertyPath: _groundCheck.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8365097333073649710, guid: 9a9d247a4b2e7e6409232fde033b9560, type: 3}
+      propertyPath: _groundCheck.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8365097333073649710, guid: 9a9d247a4b2e7e6409232fde033b9560, type: 3}
+      propertyPath: _groundCheck.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8365097333073649710, guid: 9a9d247a4b2e7e6409232fde033b9560, type: 3}
+      propertyPath: _groundCheckRadius
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1342225594588702218, guid: 9a9d247a4b2e7e6409232fde033b9560, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.867
